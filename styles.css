@@ -1,0 +1,12 @@
+.wpm-popup {
+  position: fixed;
+  padding: 6px 12px;
+  border-radius: 4px;
+  pointer-events: none;
+  visibility: hidden;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  line-height: 1;
+  white-space: nowrap;
+  z-index: 2147483647;
+  font-family: monospace, Arial, sans-serif;
+}

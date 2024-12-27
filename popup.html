@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    body {
+      width: 300px;
+      font-family: monospace, Arial, sans-serif;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: bold;
+    }
+
+    .title {
+      font-size: 18px;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 8px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: monospace, Arial, sans-serif;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+
+    .status {
+      visibility: hidden;
+      margin-top: 8px;
+      padding: 8px;
+      background: #dff0d8;
+      color: #3c763d;
+      border-radius: 4px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <p class="title">WPM Tracker</p>
+  </div>
+  <form id="settingsForm">
+    <div class="form-group">
+      <label for="toggle">Enable Extension:</label>
+      <input type="checkbox" id="toggle" />
+    </div>
+    <div class="form-group">
+      <label for="timeout">Hide Delay (milliseconds):</label>
+      <input type="number" id="timeout" min="500" max="10000000" step="100">
+    </div>
+    <div class="form-group">
+      <label for="fontSize">Font Size (pixels):</label>
+      <input type="number" id="fontSize" min="2" max="100" step="1">
+    </div>
+    <div class="form-group">
+      <label for="backgroundColor">Background Color:</label>
+      <input type="color" id="backgroundColor">
+    </div>
+    <div class="form-group">
+      <label for="textColor">Text Color:</label>
+      <input type="color" id="textColor">
+    </div>
+    <div class="form-group">
+      <label for="position">Popup Position:</label>
+      <select id="position">
+        <option value="cursor">Cursor</option>
+        <option value="above">Above Textbox</option>
+        <option value="topRight">Top Right</option>
+        <option value="topLeft">Top Left</option>
+        <option value="bottomRight">Bottom Right</option>
+        <option value="bottomLeft">Bottom Left</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="opacity">Background Opacity (%):</label>
+      <input type="range" id="opacity" min="0" max="100" value="80" step="10">
+    </div>
+    <button type="submit">Save Settings</button>
+  </form>
+  <div id="status" class="status">Settings saved!</div>
+  <script src="popup.js"></script>
+</body>
+
+</html>

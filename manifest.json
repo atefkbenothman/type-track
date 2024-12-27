@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Simple WPM Tracker",
+  "version": "1.0",
+  "description": "Shows typing speed (WPM) near cursor while typing",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "css": [
+        "styles.css"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+  "permissions": [
+    "storage"
+  ]
+}
