@@ -8,6 +8,8 @@ export class WPMTracker {
     this.lastCursorX = 0
     this.lastCursorY = 0
     this.mouseMoveTimeout = null
+    this.MIN_CHARS_FOR_WPM = 1
+    this.isTracking = false
     this.initializeEventListeners()
   }
 
@@ -26,12 +28,11 @@ export class WPMTracker {
   }
 
   handleMouseMove(e) {
-    if (this.mouseMoveTimeout) return
-    this.mouseMoveTimeout = setTimeout(() => {
-      this.mouseMoveTimeout = null
-    }, 16)
     this.lastCursorX = e.pageX
     this.lastCursorY = e.pageY
+    if (this.isTracking && this.popup.style.visibility === "visible" && this.settingsManager.currentSettings.popupPosition === "cursor") {
+      this.updatePopupPosition(e.target)
+    }
   }
 
   handleKeyPress(e) {
@@ -93,18 +94,23 @@ export class WPMTracker {
       this.startTime = now
       this.charCount = 0
       this.updatePopupPosition(e.target)
-      this.popup.style.visibility = "visible"
+      this.popup.style.visibility = "hidden"
       this.popup.textContent = "- wpm"
+      this.isTracking = true
       return
     }
     this.charCount++
-    const timeElapsed = (now - this.startTime) / 1000 / 60
-    const wpm = Math.round((this.charCount / 5) / timeElapsed)
-    this.popup.textContent = `${wpm} wpm`
+    if (this.charCount >= this.MIN_CHARS_FOR_WPM) {
+      const timeElapsed = (now - this.startTime) / 1000 / 60
+      const wpm = Math.round((this.charCount / 5) / timeElapsed)
+      this.popup.style.visibility = "visible"
+      this.popup.textContent = `${wpm} wpm`
+    }
     clearTimeout(this.hideTimeout)
     this.hideTimeout = setTimeout(() => {
       this.popup.style.visibility = "hidden"
       this.startTime = null
+      this.isTracking = false
     }, this.settingsManager.currentSettings.timeout)
   }
 

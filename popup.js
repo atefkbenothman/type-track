@@ -57,9 +57,19 @@ class PopupManager {
   }
 
   showStatus(duration = 2000) {
-    this.statusElement.style.display = "block"
+    const statusElement = document.createElement("div")
+    statusElement.id = "status"
+    statusElement.className = "status"
+    statusElement.textContent = "Settings saved!"
+    statusElement.style.marginTop = "8px"
+    statusElement.style.padding = "8px"
+    statusElement.style.background = "#dff0d8"
+    statusElement.style.color = "#3c763d"
+    statusElement.style.borderRadius = "4px"
+    statusElement.style.textAlign = "center"
+    document.body.appendChild(statusElement)
     setTimeout(() => {
-      this.statusElement.style.display = "none"
+      statusElement.remove()
     }, duration)
   }
 
