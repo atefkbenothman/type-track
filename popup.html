@@ -62,8 +62,8 @@
   </div>
   <form id="settingsForm">
     <div class="form-group">
-      <label for="toggle">Enable Extension:</label>
-      <input type="checkbox" id="toggle" />
+      <label for="extensionEnabled">Enable Extension:</label>
+      <input type="checkbox" id="extensionEnabled" />
     </div>
     <div class="form-group">
       <label for="timeout">Hide Delay (milliseconds):</label>
@@ -99,7 +99,7 @@
     <button type="submit">Save Settings</button>
   </form>
   <div id="status" class="status">Settings saved!</div>
-  <script src="popup.js"></script>
+  <script type="module" src="popup.js"></script>
 </body>
 
 </html>

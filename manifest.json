@@ -1,11 +1,12 @@
 {
   "manifest_version": 3,
-  "name": "Simple WPM Tracker",
+  "name": "WPM Tracker",
   "version": "1.0",
-  "description": "Shows typing speed (WPM) near cursor while typing",
-  "action": {
-    "default_popup": "popup.html"
-  },
+  "description": "Track your typing speed in words per minute",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
   "content_scripts": [
     {
       "matches": [
@@ -16,10 +17,23 @@
       ],
       "js": [
         "content.js"
-      ]
+      ],
+      "type": "module"
     }
   ],
-  "permissions": [
-    "storage"
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "settings.js",
+        "tracker.js",
+        "popup.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
   ]
 }

@@ -1,58 +1,96 @@
-// Default settings
-const defaultSettings = {
-  timeout: 1500,
-  fontSize: 14,
-  backgroundColor: '#000000',
-  opacity: 80,
-  textColor: '#ffffff',
-  popupPosition: 'cursor',
-  extensionEnabled: true
-};
+const settingsUrl = chrome.runtime.getURL('settings.js');
 
-// Load settings when popup opens
-document.addEventListener('DOMContentLoaded', () => {
-  chrome.storage.sync.get(defaultSettings, (settings) => {
-    document.getElementById('timeout').value = settings.timeout;
-    document.getElementById('fontSize').value = settings.fontSize;
-    document.getElementById('backgroundColor').value = settings.backgroundColor;
-    document.getElementById('opacity').value = settings.opacity;
-    document.getElementById('textColor').value = settings.textColor;
-    document.getElementById('position').value = settings.popupPosition;
-    document.getElementById('toggle').checked = settings.extensionEnabled;
-  });
-});
+class PopupManager {
+  constructor(defaultSettings) {
+    this.form = document.getElementById("settingsForm")
+    this.statusElement = document.getElementById("status")
+    this.initialize(defaultSettings)
+  }
 
-// Save settings when form is submitted
-document.getElementById('settingsForm').addEventListener('submit', (e) => {
-  e.preventDefault();
+  initialize(defaultSettings) {
+    this.loadSettings(defaultSettings)
+    this.form.addEventListener("submit", this.handleSubmit.bind(this))
+  }
 
-  const settings = {
-    timeout: parseInt(document.getElementById('timeout').value),
-    fontSize: parseInt(document.getElementById('fontSize').value),
-    backgroundColor: document.getElementById('backgroundColor').value,
-    opacity: parseInt(document.getElementById('opacity').value),
-    textColor: document.getElementById('textColor').value,
-    popupPosition: document.getElementById('position').value,
-    extensionEnabled: document.getElementById('toggle').checked
-  };
+  async loadSettings(defaultSettings) {
+    const settings = await chrome.storage.sync.get(defaultSettings)
+    this.populateForm(settings)
+  }
 
-  // Update settings in storage
-  chrome.storage.sync.set(settings, () => {
-    // Send message to content script to force style update
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs[0]) {
-        chrome.tabs.sendMessage(tabs[0].id, {
-          type: 'updateStyles',
-          settings: settings
-        });
+  populateForm(settings) {
+    const elements = {
+      timeout: value => document.getElementById("timeout").value = value,
+      fontSize: value => document.getElementById("fontSize").value = value,
+      backgroundColor: value => document.getElementById("backgroundColor").value = value,
+      opacity: value => document.getElementById("opacity").value = value,
+      textColor: value => document.getElementById("textColor").value = value,
+      popupPosition: value => document.getElementById("position").value = value,
+      extensionEnabled: value => document.getElementById("extensionEnabled").checked = value,
+    }
+    Object.entries(settings).forEach(([key, value]) => {
+      if (elements[key]) {
+        elements[key](value)
       }
-    });
+    })
+  }
 
-    // Show success message
-    const status = document.getElementById('status');
-    status.style.visibility = 'visible';
+  getFormValues() {
+    return {
+      timeout: parseInt(document.getElementById('timeout').value),
+      fontSize: parseInt(document.getElementById('fontSize').value),
+      backgroundColor: document.getElementById('backgroundColor').value,
+      opacity: parseInt(document.getElementById('opacity').value),
+      textColor: document.getElementById('textColor').value,
+      popupPosition: document.getElementById('position').value,
+      extensionEnabled: document.getElementById('extensionEnabled').checked
+    }
+  }
+
+  async updateContentScript(settings) {
+    const tabs = await chrome.tabs.query({ active: true, currentWindow: true })
+    if (tabs[0]) {
+      await chrome.tabs.sendMessage(tabs[0].id, {
+        type: "updateStyles",
+        settings: settings
+      })
+    }
+  }
+
+  showStatus(duration = 2000) {
+    this.statusElement.style.display = "block"
     setTimeout(() => {
-      status.style.visibility = 'hidden';
-    }, 2000);
-  });
-});
+      this.statusElement.style.display = "none"
+    }, duration)
+  }
+
+  async handleSubmit(e) {
+    e.preventDefault()
+    const settings = this.getFormValues()
+    try {
+      await chrome.storage.sync.set(settings)
+      await this.updateContentScript(settings)
+      this.showStatus()
+    } catch (err) {
+      console.error("error saving settings:", err)
+    }
+  }
+}
+
+function initializePopupManager(defaultSettings) {
+  const startManager = () => {
+    const popupManager = new PopupManager(defaultSettings)
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", startManager)
+  } else {
+    startManager()
+  }
+}
+
+import(settingsUrl)
+  .then(({ DEFAULT_SETTINGS }) => {
+    initializePopupManager(DEFAULT_SETTINGS)
+  })
+  .catch(err => {
+    console.error("Error loading settings module:", err)
+  })

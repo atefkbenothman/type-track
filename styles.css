@@ -9,4 +9,7 @@
   white-space: nowrap;
   z-index: 2147483647;
   font-family: monospace, Arial, sans-serif;
+  font-weight: 700;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
