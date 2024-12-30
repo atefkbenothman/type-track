@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "WPM Tracker",
   "version": "1.0",
-  "description": "Track your typing speed in words per minute",
+  "description": "Track your typing speed on any textbox",
   "permissions": [
     "storage",
     "activeTab"
