@@ -1,8 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "WPM Display",
+  "name": "TypeTrack",
   "version": "1.0",
-  "description": "Display your typing speed in real-time on any textbox",
   "permissions": [
     "storage",
     "activeTab"
