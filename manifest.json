@@ -28,7 +28,7 @@
     {
       "resources": [
         "settings.js",
-        "tracker.js",
+        "wpm.js",
         "popup.js"
       ],
       "matches": [

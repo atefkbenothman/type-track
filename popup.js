@@ -1,4 +1,4 @@
-const settingsUrl = chrome.runtime.getURL('settings.js');
+const settingsUrl = chrome.runtime.getURL("settings.js")
 
 class PopupManager {
   constructor(defaultSettings) {

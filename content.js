@@ -1,13 +1,13 @@
 const settingsURL = chrome.runtime.getURL("settings.js")
-const wpmTrackerURL = chrome.runtime.getURL("tracker.js")
+const wpmURL = chrome.runtime.getURL("wpm.js")
 
 // use promise.all to load both modules
 Promise.all([
   import(settingsURL),
-  import(wpmTrackerURL)
-]).then(([settingsModule, wpmTrackerModule]) => {
+  import(wpmURL)
+]).then(([settingsModule, wpmModule]) => {
   const { SettingsManager } = settingsModule
-  const { WPMTracker } = wpmTrackerModule
+  const { WPM } = wpmModule
 
   // initialize popup
   const popup = document.createElement("div")
@@ -17,8 +17,8 @@ Promise.all([
   // initialize settings
   const settings = new SettingsManager();
 
-  // initialize wpm tracker
-  const wpmTracker = new WPMTracker(popup, settings)
+  // initialize wpm
+  const wpm = new WPM(popup, settings)
 
 }).catch(error => {
   console.error('Error loading modules:', error)

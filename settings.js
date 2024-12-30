@@ -48,7 +48,6 @@ export class SettingsManager {
     popup.style.background = `rgba(${r}, ${g}, ${b}, ${a})`
     popup.style.color = this.settings.textColor
     popup.style.fontSize = `${this.settings.fontSize}px`
-    console.log("saved settings!")
   }
 
   get currentSettings() {

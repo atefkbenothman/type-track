@@ -1,4 +1,4 @@
-export class WPMTracker {
+export class WPM {
   constructor(popup, settingsManager) {
     this.popup = popup
     this.settingsManager = settingsManager
