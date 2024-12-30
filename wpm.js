@@ -63,6 +63,10 @@ export class WPM {
         this.popup.style.left = `${targetRect.left}px`
         this.popup.style.top = `${targetRect.top - 40}px`
       },
+      bottom: () => {
+        this.popup.style.left = `${targetRect.left}px`
+        this.popup.style.top = `${targetRect.bottom + 20}px`
+      },
       topRight: () => {
         this.popup.style.right = "10px";
         this.popup.style.top = "10px";
