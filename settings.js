@@ -39,7 +39,7 @@ export class SettingsManager {
   }
 
   applySettings() {
-    const popup = document.querySelector(".wpm-popup")
+    const popup = document.querySelector(".wpm-widget")
     if (!popup) return
     const r = parseInt(this.settings.backgroundColor.slice(1, 3), 16)
     const g = parseInt(this.settings.backgroundColor.slice(3, 5), 16)

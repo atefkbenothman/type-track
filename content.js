@@ -9,16 +9,16 @@ Promise.all([
   const { SettingsManager } = settingsModule
   const { WPM } = wpmModule
 
-  // initialize popup
-  const popup = document.createElement("div")
-  popup.className = "wpm-popup"
-  document.body.appendChild(popup)
+  // initialize wpm widget
+  const widget = document.createElement("div")
+  widget.className = "wpm-widget"
+  document.body.appendChild(widget)
 
   // initialize settings
   const settings = new SettingsManager();
 
   // initialize wpm
-  const wpm = new WPM(popup, settings)
+  const wpm = new WPM(widget, settings)
 
 }).catch(error => {
   console.error('Error loading modules:', error)
